@@ -1,9 +1,10 @@
 import React from 'react'
 import { connect, Provider } from 'react-redux'
-import { bindActionCreators, createStore, combineReducers } from 'redux'
+import { applyMiddleware, compose, createStore } from 'redux'
+import { bindActionCreators, combineReducers } from 'redux'
 import { createAction } from 'redux-actions'
 
-
+// action
 const CHANGE_TAB = "change_title"
 const UPDATE_MEMO = "update_memo"
 
@@ -14,7 +15,8 @@ const actions = {
   changeTab, updateMemo
 }
 
-const titleReducer = (tab = "", action) => {
+// reducer
+const tabReducer = (tab = "", action) => {
   switch(action.type){
     case CHANGE_TAB:
       return action.memo
@@ -32,11 +34,15 @@ const memoReducer = (state = "", action) => {
 }
 
 const reducer = combineReducers({
+  tab: tabReducer,
   memo: memoReducer
 })
 
-const store = createStore(reducer)
-//
+// store
+const enhancer = compose(
+  window.devToolsExtension ? window.devToolsExtension() : f => f
+)
+const store = createStore(reducer, {}, enhancer)
 
 //
 const Memo = ({title, onChange, value}) => {

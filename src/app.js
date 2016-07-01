@@ -57,12 +57,12 @@ const Memo = ({title, onChange, value}) => {
   </div>
 }
 
-const MemoContainer = ({memo, updateMemo}) => {
-  return <Memo title="hoge" onChange={updateMemo} value={memo} />
+const MemoContainer = ({currentTab, memo, updateMemo}) => {
+  return <Memo title={currentTab} onChange={updateMemo} value={memo} />
 }
 
 // Tab comps
-const TabItem = ({name, onClick}) => <div onClick={onClick }>{name}</div>
+const TabItem = ({name, onClick}) => <span onClick={onClick }>{name} </span>
 
 const TabContainer = ({tabs, currentTab, changeTab }) => {
   const items = tabs.map( (tab, i) => {

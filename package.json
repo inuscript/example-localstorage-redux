@@ -4,6 +4,7 @@
   "description": "",
   "main": "main.js",
   "dependencies": {
+    "babel-preset-stage-2": "^6.11.0",
     "doc-ready": "^1.0.4",
     "react": "^15.1.0",
     "react-dom": "^15.1.0",

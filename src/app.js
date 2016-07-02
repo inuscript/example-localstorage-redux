@@ -37,11 +37,16 @@ const memoReducer = (state = "", action) => {
       return state
   }
 }
+const memosReducer = (state = {}, action) => {
+  let {title, item} = action.payload
+  return { ...state, [title]: item}
+}
 
 const reducer = combineReducers({
   tabs: (state = TABS, action) => state,
   currentTab: tabReducer,
-  memo: memoReducer
+  memo: memoReducer,
+  memos: memosReducer,
 })
 
 // store
@@ -62,7 +67,7 @@ const MemoContainer = ({currentTab, memo, updateMemo}) => {
 }
 
 // Tab comps
-const TabItem = ({name, onClick}) => <span onClick={onClick }>{name} </span>
+const TabItem = ({name, onClick}) => <button onClick={onClick }>{name} </button>
 
 const TabContainer = ({tabs, currentTab, changeTab }) => {
   const items = tabs.map( (tab, i) => {

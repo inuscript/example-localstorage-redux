@@ -12,7 +12,7 @@ const CHANGE_TAB = "change_title"
 const UPDATE_MEMO = "update_memo"
 
 const changeTab = createAction(CHANGE_TAB, tab => tab )
-const updateMemo = createAction(UPDATE_MEMO, memo => memo )
+const updateMemo = createAction(UPDATE_MEMO, ({memo}) => memo, ({tab}) => {tab})
 
 const actions = {
   changeTab, updateMemo
@@ -37,9 +37,16 @@ const memoReducer = (state = "", action) => {
       return state
   }
 }
+
 const memosReducer = (state = {}, action) => {
-  let {title, item} = action.payload
-  return { ...state, [title]: item}
+  switch(action.type){
+    case UPDATE_MEMO:
+      let {tab} = action.meta
+
+      let next = memoReducer(state[tab], action)
+      return { ...state, [tab]: next}
+  }
+  return state
 }
 
 const reducer = combineReducers({
@@ -63,7 +70,10 @@ const Memo = ({title, onChange, value}) => {
 }
 
 const MemoContainer = ({currentTab, memo, updateMemo}) => {
-  return <Memo title={currentTab} onChange={updateMemo} value={memo} />
+  const handleChange = (value) => {
+    updateMemo({memo: value, tab: currentTab})
+  }
+  return <Memo title={currentTab} onChange={handleChange} value={memo} />
 }
 
 // Tab comps

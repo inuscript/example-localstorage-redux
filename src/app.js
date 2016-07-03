@@ -6,10 +6,14 @@ import { createAction } from 'redux-actions'
 import withProps from 'recompose/withProps'
 import { MemoContainer } from './Memo'
 import reducer from './reducers'
+
+// actions
 import * as types from './types'
 
 const changeTab = createAction(types.CHANGE_TAB, tab => tab )
-const updateMemo = createAction(types.UPDATE_MEMO, memo => {text: memo} )
+const updateMemo = createAction(types.UPDATE_MEMO, (memo) => {
+  return {text: memo} 
+})
 
 const actions = {
   changeTab, updateMemo
@@ -44,7 +48,6 @@ const TabContainer = ({tabs, currentTab, changeTab }) => {
 const mapDispatchToProps = (dispatch) => bindActionCreators(actions, dispatch)
 
 const mapStateToProps = (state) => {
-  console.log(state)
   return state
 }
 const App = () => {
@@ -55,6 +58,7 @@ const App = () => {
     <MemoApp />
   </div>
 }
+
 const Main = () => {
   return (
     <Provider store={store}>

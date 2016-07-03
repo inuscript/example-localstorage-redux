@@ -16,7 +16,8 @@ const tabReducer = (state = TABS[0], action) => {
   return state
 }
 
-const memoReducer = (state = "", action) => {
+const memoReducer = (state = {text:"initial"}, action) => {
+  console.log(action)
   switch(action.type){
     case types.UPDATE_MEMO:
       return action.payload

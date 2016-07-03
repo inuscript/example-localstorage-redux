@@ -8,5 +8,8 @@ const Memo = ({title, onChange, value}) => {
 }
 
 export const MemoContainer = ({currentTab, memo, updateMemo}) => {
-  return <Memo title={currentTab} onChange={updateMemo} value={memo.text} />
+  return <Memo title={currentTab} 
+    value={memo.text} 
+    onChange={updateMemo} 
+  />
 }

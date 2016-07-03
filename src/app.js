@@ -1,48 +1,20 @@
 import React from 'react'
 import { connect, Provider } from 'react-redux'
 import { applyMiddleware, compose, createStore } from 'redux'
-import { bindActionCreators, combineReducers } from 'redux'
+import { bindActionCreators } from 'redux'
 import { createAction } from 'redux-actions'
 import withProps from 'recompose/withProps'
 import { MemoContainer } from './Memo'
-// const
-const TABS = [ "dog", "cat"]
-// action
-const CHANGE_TAB = "change_title"
-const UPDATE_MEMO = "update_memo"
+import reducer from './reducers'
+import * as types from './types'
 
-const changeTab = createAction(CHANGE_TAB, tab => tab )
-const updateMemo = createAction(UPDATE_MEMO, memo => {text: memo} )
+const changeTab = createAction(types.CHANGE_TAB, tab => tab )
+const updateMemo = createAction(types.UPDATE_MEMO, memo => {text: memo} )
 
 const actions = {
   changeTab, updateMemo
 }
 
-// reducer
-const tabReducer = (state = TABS[0], action) => {
-  switch(action.type){
-    case CHANGE_TAB:
-      return action.payload
-    default:
-      return state
-  }
-  return state
-}
-
-const memoReducer = (state = "", action) => {
-  switch(action.type){
-    case UPDATE_MEMO:
-      return action.payload
-    default:
-      return state
-  }
-}
-
-const reducer = combineReducers({
-  tabs: (state = TABS, action) => state,
-  currentTab: tabReducer,
-  memo: memoReducer
-})
 
 // store
 const enhancer = compose(

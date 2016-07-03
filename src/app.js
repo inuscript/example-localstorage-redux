@@ -1,60 +1,24 @@
 import React from 'react'
 import { connect, Provider } from 'react-redux'
 import { applyMiddleware, compose, createStore } from 'redux'
-import { bindActionCreators, combineReducers } from 'redux'
+import { bindActionCreators } from 'redux'
 import { createAction } from 'redux-actions'
 import withProps from 'recompose/withProps'
+import { MemoContainer } from './Memo'
+import reducer from './reducers'
 
-// const
-const TABS = [ "dog", "cat"]
-// action
-const CHANGE_TAB = "change_title"
-const UPDATE_MEMO = "update_memo"
+// actions
+import * as types from './types'
 
-const changeTab = createAction(CHANGE_TAB, tab => tab )
-const updateMemo = createAction(UPDATE_MEMO, ({memo}) => memo, ({tab}) => {tab})
+const changeTab = createAction(types.CHANGE_TAB, tab => tab )
+const updateMemo = createAction(types.UPDATE_MEMO, (memo) => {
+  return {text: memo} 
+})
 
 const actions = {
   changeTab, updateMemo
 }
 
-// reducer
-const tabReducer = (state = TABS[0], action) => {
-  switch(action.type){
-    case CHANGE_TAB:
-      return action.payload
-    default:
-      return state
-  }
-  return state
-}
-
-const memoReducer = (state = "", action) => {
-  switch(action.type){
-    case UPDATE_MEMO:
-      return action.payload
-    default:
-      return state
-  }
-}
-
-const memosReducer = (state = {}, action) => {
-  switch(action.type){
-    case UPDATE_MEMO:
-      let {tab} = action.meta
-
-      let next = memoReducer(state[tab], action)
-      return { ...state, [tab]: next}
-  }
-  return state
-}
-
-const reducer = combineReducers({
-  tabs: (state = TABS, action) => state,
-  currentTab: tabReducer,
-  memo: memoReducer,
-  memos: memosReducer,
-})
 
 // store
 const enhancer = compose(
@@ -62,19 +26,7 @@ const enhancer = compose(
 )
 const store = createStore(reducer, {}, enhancer)
 // Memo comps
-const Memo = ({title, onChange, value}) => {
-  return <div>
-    <div>{title}</div>
-    <textarea onChange={(e) => onChange(e.target.value) } value={value} />
-  </div>
-}
 
-const MemoContainer = ({currentTab, memo, updateMemo}) => {
-  const handleChange = (value) => {
-    updateMemo({memo: value, tab: currentTab})
-  }
-  return <Memo title={currentTab} onChange={handleChange} value={memo} />
-}
 
 // Tab comps
 const TabItem = ({name, onClick}) => <button onClick={onClick }>{name} </button>
@@ -96,7 +48,6 @@ const TabContainer = ({tabs, currentTab, changeTab }) => {
 const mapDispatchToProps = (dispatch) => bindActionCreators(actions, dispatch)
 
 const mapStateToProps = (state) => {
-  console.log(state)
   return state
 }
 const App = () => {
@@ -107,6 +58,7 @@ const App = () => {
     <MemoApp />
   </div>
 }
+
 const Main = () => {
   return (
     <Provider store={store}>

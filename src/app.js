@@ -53,7 +53,7 @@ const store = createStore(reducer, {}, enhancer)
 
 
 // Tab comps
-const TabItem = ({name, onClick}) => <span onClick={onClick }>{name} </span>
+const TabItem = ({name, onClick}) => <button onClick={onClick }>{name} </button>
 
 const TabContainer = ({tabs, currentTab, changeTab }) => {
   const items = tabs.map( (tab, i) => {

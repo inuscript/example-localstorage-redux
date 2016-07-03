@@ -4,7 +4,7 @@ import { applyMiddleware, compose, createStore } from 'redux'
 import { bindActionCreators, combineReducers } from 'redux'
 import { createAction } from 'redux-actions'
 import withProps from 'recompose/withProps'
-
+import { MemoContainer } from './Memo'
 // const
 const TABS = [ "dog", "cat"]
 // action
@@ -12,7 +12,7 @@ const CHANGE_TAB = "change_title"
 const UPDATE_MEMO = "update_memo"
 
 const changeTab = createAction(CHANGE_TAB, tab => tab )
-const updateMemo = createAction(UPDATE_MEMO, memo => memo )
+const updateMemo = createAction(UPDATE_MEMO, memo => {text: memo} )
 
 const actions = {
   changeTab, updateMemo
@@ -50,16 +50,7 @@ const enhancer = compose(
 )
 const store = createStore(reducer, {}, enhancer)
 // Memo comps
-const Memo = ({title, onChange, value}) => {
-  return <div>
-    <div>{title}</div>
-    <textarea onChange={(e) => onChange(e.target.value) } value={value} />
-  </div>
-}
 
-const MemoContainer = ({currentTab, memo, updateMemo}) => {
-  return <Memo title={currentTab} onChange={updateMemo} value={memo} />
-}
 
 // Tab comps
 const TabItem = ({name, onClick}) => <span onClick={onClick }>{name} </span>
